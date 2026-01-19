@@ -5,12 +5,13 @@ import NoteCard from '../components/NoteCard'
 import toast from 'react-hot-toast'
 import api from '../../lib/axios'
 import { Link } from 'react-router'
- import{PlusIcon} from 'lucide-react'
+import { Sparkles } from "lucide-react"
+import AiChat from '../components/AiChat'
 const HomePage = () => {
   const [isRateLimit, setRateLimit] = useState(false)
   const [notes, setNotes] = useState([])
   const [loading, setLoading] = useState(true)
-
+ const [Open , seIsOpen]= useState(false)
   useEffect(() => {
     const fetchNotes = async () => {
       try {
@@ -31,6 +32,10 @@ const HomePage = () => {
     fetchNotes()
   }, [])
 
+
+  const toggleChat = () => {
+    seIsOpen(!Open)
+  }
   return (
     <div className="min-h-screen bg-base-100">
       <Navbar />
@@ -80,6 +85,26 @@ const HomePage = () => {
           </section>
         )}
       </main>
+    
+<div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+  
+  {/* Chat window */}
+  {Open && (
+    <div className="mb-1">
+      <AiChat />
+    </div>
+  )}
+
+  {/* Floating button */}
+  <button
+    onClick={toggleChat}
+    className="w-9 h-9 rounded-full border border-gray-300 bg-white flex items-center justify-center shadow-sm hover:bg-gray-50 transition"
+  >
+    <Sparkles className="w-5 h-5 text-gray-700" />
+  </button>
+
+</div>
+
     </div>
   )
 }
