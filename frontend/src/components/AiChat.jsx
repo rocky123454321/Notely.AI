@@ -26,7 +26,7 @@ const ChatMessage = ({ msg, typewriter, onUpdate }) => {
   return (
     <div className="w-full flex">
       <div
-        className={`max-w-[85%] break-words whitespace-pre-wrap rounded-lg px-4 py-2 border ${
+        className={`max-w-[95%] break-words whitespace-pre-wrap rounded-lg px-4 py-2 border ${
           msg.role === "user"
             ? "ml-auto bg-black text-white border-black"
             : "bg-gray-50 text-gray-700 border-gray-200"
@@ -108,65 +108,66 @@ const AiChat = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl h-[650px] bg-white border border-gray-200 rounded-xl flex flex-col overflow-hidden mx-auto">
-      {/* Header */}
-      <div className="shrink-0 px-4 py-3 border-b border-gray-200 text-sm font-medium text-gray-800">
-        AI Assistant
-      </div>
+<div className="w-full max-w-md sm:max-w-3xl md:max-w-5xl h-full bg-white border border-gray-200 rounded-xl flex flex-col overflow-hidden mx-auto shadow-lg">
 
-      {/* Chat area */}
-      <div className="relative flex-1 overflow-hidden">
-        <div className="absolute inset-0 px-4 py-4 text-sm overflow-y-auto overflow-x-hidden">
-          {messages.length === 0 && !loading && (
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="w-full max-w-[85%] text-center text-gray-500">
-                <p className="text-sm font-medium">Start a conversation</p>
-                <p className="mt-1 text-xs text-gray-400">
-                  Ask anything — ideas, summaries, or quick help.
-                </p>
-              </div>
-            </div>
-          )}
+  {/* Header */}
+  <div className="flex-shrink-0 px-4 py-3 border-b border-gray-200 text-sm font-semibold text-gray-800 bg-gray-50">
+    AI Assistant
+  </div>
 
-          <div className="space-y-4">
-            {messages.map((msg, index) => (
-              <ChatMessage
-                key={index}
-                msg={msg}
-                typewriter={index === latestAIIndex}
-                onUpdate={scrollBottom}
-              />
-            ))}
-
-            {loading && (
-              <span className="loading loading-dots loading-xs" />
-            )}
-
-            <div ref={messagesEndRef} />
-          </div>
+  {/* Messages area */}
+  <div className="flex-1 flex flex-col overflow-y-auto px-4 py-3 space-y-3 bg-white">
+    {messages.length === 0 && !loading && (
+      <div className="flex-1 flex items-center justify-center">
+        <div className="text-center text-gray-500 max-w-[85%]">
+          <p className="text-sm font-medium">Start a conversation</p>
+          <p className="mt-1 text-xs text-gray-400">
+            Ask anything — ideas, summaries, or quick help.
+          </p>
         </div>
       </div>
+    )}
 
-      {/* Input area */}
-      <div className="shrink-0 px-4 py-3 border-t border-gray-200 bg-white">
-        <div className="flex items-end gap-2">
-          <textarea
-            rows={2}
-            placeholder="Describe your idea…"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 resize-none rounded-lg border border-gray-300 p-3 text-sm focus:outline-none focus:ring-1 focus:ring-black"
-          />
-          <button
-            onClick={sendMessage}
-            disabled={loading}
-            className="shrink-0 rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-100"
-          >
-            Send
-          </button>
-        </div>
+    {messages.map((msg, index) => (
+      <ChatMessage
+        key={index}
+        msg={msg}
+        typewriter={index === latestAIIndex}
+        onUpdate={() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })}
+      />
+    ))}
+
+    {loading && (
+      <div className="flex justify-center py-2">
+        <span className="loading loading-dots loading-sm" />
       </div>
+    )}
+
+    <div ref={messagesEndRef} />
+  </div>
+
+  {/* Input area */}
+  <div className="flex-shrink-0 px-4 py-3 border-t border-gray-200 bg-gray-50">
+    <div className="flex items-end gap-2">
+      <textarea
+        rows={2}
+        placeholder="Describe your idea…"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        className="flex-1 resize-none rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-1 focus:ring-black placeholder-gray-400"
+      />
+      <button
+        onClick={sendMessage}
+        disabled={loading || input.trim() === ""}
+        className="shrink-0 rounded-lg border border-gray-300 px-4 py-2 text-sm bg-white hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Send
+      </button>
     </div>
+  </div>
+</div>
+
+
   );
 };
 
