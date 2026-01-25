@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import api from "../../lib/axios";
 
 const ChatMessage = ({ msg, typewriter, onUpdate }) => {
   const [displayedText, setDisplayedText] = useState(
@@ -45,21 +45,15 @@ const AiChat = () => {
   const [latestAIIndex, setLatestAIIndex] = useState(null);
   const messagesEndRef = useRef(null);
 
-  const token = localStorage.getItem("token"); // Auth token
-
   const scrollBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   // Fetch chats from backend
   useEffect(() => {
-    if (!token) return;
-
     const fetchChats = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/chat", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.get("/chat");
         setMessages(res.data);
         scrollBottom();
       } catch (err) {
@@ -68,11 +62,11 @@ const AiChat = () => {
     };
 
     fetchChats();
-  }, [token]);
+  }, []);
 
   // Send message
   const sendMessage = async () => {
-    if (!input.trim() || !token) return;
+    if (!input.trim()) return;
 
     const text = input;
     setMessages((prev) => [...prev, { role: "user", content: text }]);
@@ -80,11 +74,7 @@ const AiChat = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/chat",
-        { message: text },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await api.post("/chat", { message: text });
 
       setMessages((prev) => {
         const next = [...prev, { role: "assistant", content: res.data.reply }];

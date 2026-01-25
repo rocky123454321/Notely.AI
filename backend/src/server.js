@@ -13,9 +13,10 @@ const PORT = process.env.PORT || 3000
 const app = express()
 const __dirname = path.resolve();
 app.use(express.json())
-if(process.env.NODE_ENV !== "production"){}
 app.use(cors({
-   origin: [ "https://notely-ai.onrender.com"],
+  origin: process.env.NODE_ENV === "production"
+    ? ["https://notely-ai.onrender.com"]
+    : ["http://localhost:3000", "http://localhost:5173"],
   credentials: true
 }))
 app.use(ratelimiter)
