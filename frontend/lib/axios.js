@@ -3,7 +3,7 @@ import axios from "axios";
 // Set the base URL depending on environment
 const BASE_URL =
   import.meta.env.MODE === "development"
-    ? "https://notely-ai.onrender.com/api"
+    ? "http://localhost:3000/api"
     : "/api";
 
 const api = axios.create({
