@@ -6,6 +6,7 @@ import AiChat from "../components/AiChat";
 import Modal from "../components/ModalShow";
 import { Link } from "react-router-dom";
 import { Sparkles } from "lucide-react";
+import api from "../../lib/axios";
 
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
@@ -30,16 +31,24 @@ const HomePage = () => {
     };
   }, []);
 
-  // Fetch notes (example)q
+  // Fetch notes
   useEffect(() => {
     const fetchNotes = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
       try {
-        const res = await fetch("/api/notes");
-        const data = await res.json();
-        setNotes(data);
+        const res = await api.get("/notes");
+        setNotes(res.data);
       } catch (err) {
-        console.error(err);
-        setRateLimit(false);
+        console.error("Failed to fetch notes:", err);
+        // Check if it's a rate limit error
+        if (err.response?.status === 429) {
+          setRateLimit(true);
+        }
       } finally {
         setLoading(false);
       }
