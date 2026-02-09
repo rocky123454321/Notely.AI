@@ -41,7 +41,7 @@ const Navbar = () => {
             </Link>
 
           {user ? (
-  <div className="dropdown dropdown-end mt-30">
+  <div className="dropdown dropdown-end ">
    
     <button
       tabIndex={0}
