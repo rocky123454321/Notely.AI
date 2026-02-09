@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# MERN Thinkboard
-=======
+
 # Notely.AI
 >>>>>>> e93fadbd90b5cadc64733ad76b3959e78aabdfea
 
