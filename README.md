@@ -56,8 +56,7 @@ Before running this application, make sure you have the following installed:
 1. **Clone the repository**
    ```bash
 <<<<<<< HEAD
-   git clone https://github.com/rocky123454321/NoteFlow.git
-   cd mern-thinkboard
+  
 =======
    git clone https://github.com/rocky123454321/Notely.AI.git
    cd Notely.AI
