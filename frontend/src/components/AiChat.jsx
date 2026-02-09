@@ -49,7 +49,7 @@ const AiChat = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Fetch chats from backend
+  
   useEffect(() => {
     const fetchChats = async () => {
       try {
@@ -64,7 +64,6 @@ const AiChat = () => {
     fetchChats();
   }, []);
 
-  // Send message
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -100,12 +99,12 @@ const AiChat = () => {
   return (
 <div className="w-full max-w-md sm:max-w-3xl md:max-w-5xl h-full bg-white border border-gray-200 rounded-xl flex flex-col overflow-hidden mx-auto shadow-lg">
 
-  {/* Header */}
+
   <div className="flex-shrink-0 px-4 py-3 border-b border-gray-200 text-sm font-semibold text-gray-800 bg-gray-50">
     AI Assistant
   </div>
 
-  {/* Messages area */}
+  
   <div className="flex-1 flex flex-col overflow-y-auto px-4 py-3 space-y-3 bg-white">
     {messages.length === 0 && !loading && (
       <div className="flex-1 flex items-center justify-center">
